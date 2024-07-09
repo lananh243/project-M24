@@ -92,7 +92,7 @@ export default function Register() {
         phone: phone,
         address: address,
         status: true,
-        role: true,
+        role: "user",
       };
       dispatch(addUsers(newUser));
       setShowSuccess(true);

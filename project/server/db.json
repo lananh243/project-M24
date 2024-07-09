@@ -1,52 +1,138 @@
 {
   "users": [
     {
-      "user_id": 1995373,
+      "userId": 1,
+      "fullname": "Lan Anh",
+      "email": "lanh@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "0973767467",
+      "address": "Hà Nội",
+      "status": true,
+      "role": "admin",
+      "id": 1
+    },
+    {
+      "user_id": 973326,
+      "fullname": "Thảo Linh",
+      "email": "linh@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "0973767467",
+      "address": "Hà Nội",
+      "status": true,
+      "role": "user",
+      "id": 2
+    },
+    {
+      "user_id": 8548040,
+      "fullname": "Ngọc Mai",
+      "email": "mai@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "9456748893",
+      "address": "Hà Nam",
+      "status": false,
+      "role": "user",
+      "id": 3
+    },
+    {
+      "user_id": 4866890,
       "fullname": "Lan Anh",
       "email": "anh@gmail.com",
       "password": "123456",
       "confirmPassword": "123456",
-      "phone": "0356276478",
-      "address": "Phú Thọ",
+      "phone": "07645678",
+      "address": "Ha Noi",
       "status": false,
-      "role": true,
-      "id": 1
-    },
-    {
-      "user_id": 5725082,
-      "fullname": "Ngọc Lan ",
-      "email": "lan@gmail.com",
-      "password": "123456",
-      "confirmPassword": "123456",
-      "phone": "67487579932",
-      "address": "Hà Nội",
-      "status": true,
-      "role": true,
-      "id": 2
-    },
-    {
-      "user_id": 219259,
-      "fullname": "Phương Linh",
-      "email": "linh@gmail.com",
-      "password": "123456",
-      "confirmPassword": "123456",
-      "phone": "0983475893",
-      "address": "Hà Nội",
-      "status": true,
-      "role": false,
-      "id": 3
-    },
-    {
-      "user_id": 2413509,
-      "fullname": "Minh Lý",
-      "email": "ly@gmail.com",
-      "password": "123456",
-      "confirmPassword": "123456",
-      "phone": "0837478586",
-      "address": "Hà Nam",
-      "status": true,
-      "role": true,
+      "role": "user",
       "id": 4
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/3-3-300x300.png.bv_resized_desktop.png.bv.webp",
+      "category": "Hoa len bó",
+      "name": "Hoa lưu ly",
+      "price": "70.000 ₫"
+    },
+    {
+      "id": 2,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/2-2-300x300.png.bv_resized_desktop.png.bv.webp",
+      "category": "Áo len đan",
+      "name": "Áo len họa tiết",
+      "price": "121.000 ₫"
+    },
+    {
+      "id": 3,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/3-3-300x300.png.bv_resized_desktop.png.bv.webp",
+      "category": "Áo len đan",
+      "name": "Áo len trắng ngọc",
+      "price": "100.000 ₫"
+    },
+    {
+      "id": 4,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/1-2-300x300.png.bv_resized_desktop.png.bv.webp",
+      "category": "Áo len đan",
+      "name": "Áo len xanh ngọc",
+      "price": "99.000 ₫"
+    },
+    {
+      "id": 5,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436227269_779604164143634_7965383776702395380_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
+      "category": "Gấu nhỏ",
+      "name": "Gấu đội mũ",
+      "price": "22.000 ₫"
+    },
+    {
+      "id": 6,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436624946_1159399751737485_503098841301846950_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
+      "category": "Thú len",
+      "name": "Gấu nhỏ 5 màu",
+      "price": "40.000 ₫"
+    },
+    {
+      "id": 7,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/5-300x300.png.bv_resized_desktop.png.bv.webp",
+      "category": "Thú len",
+      "name": "Chậu hoa đầu thú",
+      "price": "99.000 ₫"
+    },
+    {
+      "id": 8,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436380202_772053777962524_6032889301681875682_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
+      "category": "Sét đồ thú vị",
+      "name": "Sét ếch",
+      "price": "299.000 ₫"
+    },
+    {
+      "id": 9,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_435461200_1609454623133922_3011892420051387273_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
+      "category": "Sét đồ thú vị",
+      "name": "Sét kuromi",
+      "price": "300.000 ₫"
+    },
+    {
+      "id": 10,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436227259_386451300961434_227844149117653959_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
+      "category": "Sét đồ thú vị",
+      "name": "Sét loppy hồng",
+      "price": "340.000 ₫"
+    },
+    {
+      "id": 11,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436616783_309579678821451_4980076836134553827_n_1080-1-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
+      "category": "Sét đồ thú vị",
+      "name": "Sét chũi nâu",
+      "price": "140.000 ₫"
+    },
+    {
+      "id": 12,
+      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-2-300x300.png.bv_resized_desktop.png.bv.webp",
+      "category": "Túi len",
+      "name": "Túi mini",
+      "price": "110.000 ₫"
     }
   ]
 }

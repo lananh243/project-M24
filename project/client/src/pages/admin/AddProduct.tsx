@@ -68,8 +68,14 @@ export default function AddProduct() {
             </b>
           </div>
         </div>
-        <div className="w-full bg-gray-200">
-          <div className="bg-white shadow-sm h-28 flex items-center w-full justify-between px-4">
+        <div
+          className="w-full bg-gray-200"
+          style={{ height: "100vh", overflowY: "scroll", position: "relative" }}
+        >
+          <div
+            className="bg-white shadow-sm h-28 flex items-center w-full justify-between px-4"
+            style={{ position: "sticky", top: 0, left: 0, zIndex: 1 }}
+          >
             <h2 className="text-lg mb-2">Products</h2>
             <div className="relative">
               <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>

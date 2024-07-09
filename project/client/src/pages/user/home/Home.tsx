@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Carousel } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { getAllUser } from "../../../store/reducers/usersReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  getAllProduct,
+  getAllUser,
+} from "../../../store/reducers/usersReducer";
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(false); // State to track login status
-  const [userData, setUserData] = useState(null); // State to hold user data
+  const [account, setAccount] = useState(
+    JSON.parse(localStorage.getItem("account") || "null")
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const data: any = useSelector((state: any) => state.usersReducer.products);
+  console.log(data);
   useEffect(() => {
-    dispatch(getAllUser())
-  })
-  // Example function to handle login
+    dispatch(getAllProduct());
+  }, []);
   const handleLogin = () => {
-   dispatch(g)
+    navigate("/login");
   };
 
   // Example function to handle logout
   const handleLogout = () => {
     // Perform logout logic here
-    setUserData(null);
-    setLoggedIn(false);
+    const confirmLogout = confirm("Bạn có chắc chắn đăng xuất không?");
+    if (confirmLogout) {
+      localStorage.removeItem("account");
+      setAccount(null);
+      navigate("/login");
+    }
   };
   return (
     <>
@@ -30,14 +40,6 @@ export default function Home() {
           src="https://beelenhandmade.com/wp-content/uploads/2024/06/Beelenhandmade.png"
           alt=""
         />
-        <div className=" h-[35px] border-4 border-gray-400">
-          <input
-            type="text"
-            placeholder="Tìm kiếm"
-            className="w-[350px] border-none"
-          />
-          <i className="fa-solid fa-magnifying-glass justify-end"></i>
-        </div>
         <div className="flex gap-8">
           <div className="text-gray-400 h-11 w-1">|</div>
           <div className="flex gap-4">
@@ -47,18 +49,9 @@ export default function Home() {
               <div className="absolute top-1 left-4 w-4 h-4 bg-yellow-100 rounded-full"></div>
             </div>
           </div>
-          {loggedIn ? (
+          {account ? (
             <div className="flex items-center gap-4">
-              {userData && (
-                <>
-                  <img
-                    src={userData.image}
-                    alt=""
-                    className="w-12 h-12 rounded-full border-2 border-black"
-                  />
-                  <b>{userData.name}</b>
-                </>
-              )}
+              <p>{account.fullname}</p>
               <Button variant="outline-primary" onClick={handleLogout}>
                 ĐĂNG XUẤT
               </Button>
@@ -108,6 +101,7 @@ export default function Home() {
         <h2 className="text-2xl text-pink-400 text-center">
           Dịch vụ của LANANHHANDMADE
         </h2>
+        <div className="mx-auto w-[150px] h-[3px] bg-black mt-4"></div>
         <div className="flex justify-center gap-10 m-10">
           <div className="w-[240px] text-center">
             <img
@@ -151,339 +145,87 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <h2 className="text-3xl text-center text-pink-400 m-10">
-          DANH MỤC BÁN CHẠY
-        </h2>
+        <h2 className="text-3xl text-center text-pink-400">ĐỒ HANDMADE</h2>
+        <div className="mx-auto w-[100px] h-[3px] bg-black m-4"></div>
         <div className="flex justify-center m-10 gap-5">
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/2024/06/2-9-300x300.png"
+          <div>
+            <img
+              src="https://congcutot.vn/uploads/store/page/article/2023/03/anh-bia_5.jpg"
+              alt=""
+              className="w-96 h-64"
             />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Hoa len bó</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Hoa hồng mix hoa lưu ly
-              </Card.Text>
-              <Card.Text className="font-bold">100.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-8-300x300.png.bv_resized_desktop.png.bv.webp"
+            <h1 className="mt-5 text-xl text-gray-500">Dụng cụ làm</h1>
+          </div>
+          <div>
+            <img
+              src="https://media.loveitopcdn.com/2779/kcfinder/upload/images/dung-cu-lam-do-da-handmade%20%283%29%281%29.jpg"
+              alt=""
+              className="w-96 h-64"
             />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Hoa lẻ</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Hoa hồng
-              </Card.Text>
-              <Card.Text className="font-bold">120.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/4-5-300x300.png.bv_resized_desktop.png.bv.webp"
+            <h1 className="mt-5 text-xl text-gray-500">Sản phẩm bằng da</h1>
+          </div>
+          <div>
+            <img
+              src="https://i.pinimg.com/564x/7a/24/6f/7a246fbdf30b15a47d515e2d4990a5d7.jpg"
+              alt=""
+              className="w-96 h-64"
             />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Móc khóa</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Móc khóa cung hoàng đạo
-              </Card.Text>
-              <Card.Text className="font-bold">40.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/5-2-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Phụ kiện</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Bánh sinh nhật
-              </Card.Text>
-              <Card.Text className="font-bold">250.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="flex justify-center m-10 gap-5">
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-5-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Hoa lẻ</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Hoa thú
-              </Card.Text>
-              <Card.Text className="font-bold">30.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/3-3-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Hoa len bó</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Hoa lưu ly
-              </Card.Text>
-              <Card.Text className="font-bold">70.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-3-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Hoa len bó</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Hoa sen
-              </Card.Text>
-              <Card.Text className="font-bold">189.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-2-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Phụ kiện</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Túi mini
-              </Card.Text>
-              <Card.Text className="font-bold">50.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-            </Card.Body>
-          </Card>
+            <h1 className="mt-5 text-xl text-gray-500">Sản phẩm bằng len</h1>
+          </div>
         </div>
       </div>
       <div>
-        <h2 className="text-3xl text-center text-pink-400 m-10">
-          SẢN PHẨM MỚI CẬP NHẬT
-        </h2>
-        <div className="flex justify-center m-10 gap-5">
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-2-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Áo đan len</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Áo len họa tiết
-              </Card.Text>
-              <Card.Text className="font-bold">110.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/2-2-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Áo đan len</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Áo len hoa
-              </Card.Text>
-              <Card.Text className="font-bold">121.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/3-3-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Áo đan len</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Áo len trắng ngọc
-              </Card.Text>
-              <Card.Text className="font-bold">111.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/1-2-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Áo đan len</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Áo len xanh ngọc
-              </Card.Text>
-              <Card.Text className="font-bold">99.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
+        <h2 className="text-3xl text-center text-pink-400">SẢN PHẨM</h2>
+        <div className="mx-auto w-[100px] h-[3px] bg-black mt-4 "></div>
+        <div className="grid grid-cols-4 gap-4 m-10">
+          {data.map((item: any) => (
+            <Card key={item.id} style={{ width: "16rem", margin: "0 auto" }}>
+              <Card.Img variant="top" src={item.image} />
+              <Card.Body>
+                <Card.Title className="text-gray-500">{item.name}</Card.Title>
+                <Card.Text className="font-medium text-red-500">
+                  {item.category}
+                </Card.Text>
+                <Card.Text className="font-bold">{item.price}</Card.Text>
+                <Button variant="primary">Xem chi tiết</Button>
+                <Button className="bg-orange-500 text-white mx-2">
+                  Mua ngay
+                </Button>
+              </Card.Body>
+            </Card>
+          ))}
         </div>
-        <div className="flex justify-center m-10 gap-5">
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/5-300x300.png.bv_resized_desktop.png.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Hoa thú</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Chậu hoa đầu thú
-              </Card.Text>
-              <Card.Text className="font-bold">99.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436227269_779604164143634_7965383776702395380_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Gấu nhỏ</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Gấu đội mũ
-              </Card.Text>
-              <Card.Text className="font-bold">22.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436624946_1159399751737485_503098841301846950_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Thú len</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Gấu nhỏ 5 màu
-              </Card.Text>
-              <Card.Text className="font-bold">40.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436472731_830166502460694_5699366756734875508_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Thú len</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Gấu nhỏ nhiều màu
-              </Card.Text>
-              <Card.Text className="font-bold">55.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
+      </div>
+      <h2 className="text-3xl text-center text-pink-400">
+        PHONG CÁCH HOTTREND
+      </h2>
+      <div className="mx-auto w-[130px] h-[3px] bg-black mt-4"></div>
+      <div className="flex justify-center gap-5 m-11">
+        <div>
+          <img
+            src="https://js0fpsb45jobj.vcdn.cloud/storage/upload/media/nhung-mau-dam-di-bien/nhung-mau-dam-di-bien-nang-tho.jpg"
+            alt=""
+            className="h-full"
+          />
         </div>
-        <div className="flex justify-center m-10 gap-5">
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436616783_309579678821451_4980076836134553827_n_1080-1-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
+        <div>
+          <img
+            src="https://www.cleanipedia.com/images/5iwkm8ckyw6v/1NjepsAj4C2wBUd3lQmDK3/0b3a54acfd1d7a7370de8690d7b8617e/U2NyZWVuc2hvdF8yMDIxLTA1LTA0XzExMzAyNy5wbmc/600w/ch%E1%BB%93ng-qu%E1%BA%A7n-%C3%A1o-g%E1%BB%8Dn-g%C3%A0ng-tr%C3%AAn-b%C3%A0n-g%E1%BB%97..webp"
+            alt=""
+            className="h-3/5 w-[600px]"
+          />
+          <div className="flex gap-6">
+            <img
+              src="https://i.ytimg.com/vi/5g6L0bteVgo/maxresdefault.jpg"
+              alt=""
+              className="w-72 h-56 mt-10"
             />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Sét đồ thú vị</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Sét chũi nâu
-              </Card.Text>
-              <Card.Text className="font-bold">130.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436380202_772053777962524_6032889301681875682_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
+            <img
+              src="https://gitana.vn/image/catalog/san-pham/D%C3%89P%20STEELER/ban-dep-da-nam-cao-cap-hang-hieu-steeler-hcm-20.jpg"
+              alt=""
+              className="w-72 h-56 mt-10"
             />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Sét đồ thú vị</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Sét ếch
-              </Card.Text>
-              <Card.Text className="font-bold">100.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_435461200_1609454623133922_3011892420051387273_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Sét đồ thú vị</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Sét kuromi
-              </Card.Text>
-              <Card.Text className="font-bold">129.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "16rem" }}>
-            <Card.Img
-              variant="top"
-              src="https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436227259_386451300961434_227844149117653959_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp"
-            />
-            <Card.Body>
-              <Card.Title className="text-gray-500">Sét đồ thú vị</Card.Title>
-              <Card.Text className="font-medium text-red-500">
-                Sét loppy hồng
-              </Card.Text>
-              <Card.Text className="font-bold">140.000 ₫</Card.Text>
-              <Button variant="primary">Xem chi tiết</Button>
-              <Button className=" bg-orange-500 text-white mx-2">
-                Mua ngay
-              </Button>
-            </Card.Body>
-          </Card>
+          </div>
         </div>
       </div>
     </>

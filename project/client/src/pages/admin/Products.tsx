@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getAllProduct } from "../../store/reducers/usersReducer";
 
 export default function Products() {
+  const data: any = useSelector((state) => state);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProduct());
+  }, []);
   return (
     <>
       <div className="flex">
@@ -46,8 +53,15 @@ export default function Products() {
             </b>
           </div>
         </div>
-        <div className="w-full bg-gray-200">
-          <div className="bg-white shadow-sm h-28 flex items-center w-full justify-between px-4">
+
+        <div
+          className="w-full bg-gray-200"
+          style={{ height: "100vh", overflowY: "scroll", position: "relative" }}
+        >
+          <div
+            className="bg-white shadow-sm h-28 flex items-center w-full justify-between px-4"
+            style={{ position: "sticky", top: 0, left: 0, zIndex: 1 }}
+          >
             <h2 className="text-lg mb-2">Products</h2>
             <div className="relative">
               <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -85,35 +99,44 @@ export default function Products() {
                     <th className="p-3">Status</th>
                     <th className="p-3">Category</th>
                     <th className="p-2">Price</th>
-                    <th className="p-2">Date</th>
+                    <th className="p-2">Image</th>
                     <th className="p-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-y border-gray-200 p-3 text-center">
-                    <td className=" p-3">134747</td>
-                    <td className=" p-3">Bánh sinh nhật</td>
-                    <td className=" p-3">Có sẵn</td>
-                    <td className=" p-3">len móc</td>
-                    <td className=" p-3">12.000 đ</td>
-                    <td className=" p-3">3/3/2024</td>
-                    <td className=" p-3">
-                      <div className="flex justify-evenly">
-                        <button className="text-sm p-1 border border-slate-300 w-14 bg-blue-400 text-white rounded-md">
-                          View
-                        </button>
-                        <Link to="/admin/products/update">
-                          <button className="text-sm p-1 border border-slate-300 w-14 bg-orange-300 rounded-md text-white">
-                            Edit
-                          </button>
-                        </Link>
+                  {data.usersReducer.products.map(
+                    (product: any, index: number) => (
+                      <tr
+                        className="border-y border-gray-200 p-3 text-center"
+                        key={product.id}
+                      >
+                        <td className=" p-3">{index + 1}</td>
+                        <td className=" p-3">{product.name}</td>
+                        <td className=" p-3">Có sẵn</td>
+                        <td className=" p-3">{product.category}</td>
+                        <td className=" p-3">{product.price}</td>
+                        <td className="p-3 w-52 h-52">
+                          <img src={product.image} alt="" />
+                        </td>
+                        <td className=" p-3">
+                          <div className="flex justify-evenly">
+                            <button className="text-sm p-1 border border-slate-300 w-14 bg-blue-400 text-white rounded-md">
+                              View
+                            </button>
+                            <Link to="/admin/products/update">
+                              <button className="text-sm p-1 border border-slate-300 w-14 bg-orange-300 rounded-md text-white">
+                                Edit
+                              </button>
+                            </Link>
 
-                        <button className="text-sm p-1 border border-slate-300 w-14 bg-red-400 rounded-md text-white">
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                            <button className="text-sm p-1 border border-slate-300 w-14 bg-red-400 rounded-md text-white">
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>

@@ -33,18 +33,22 @@ export default function Login() {
     setPasswordStatus(!passwordStatus);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const user = users.find(
+    const user: any = users.find(
       (user) => user.email === email && user.password === password
     );
 
-    if (user) {
-      navigate("/");
+    if (user?.status) {
+      if (user.role == "admin") {
+        navigate("/admin/control");
+      } else {
+        navigate("/");
+      }
+      localStorage.setItem("account", JSON.stringify(user));
     } else {
       handleShow();
     }
-    console.log(user);
   };
 
   return (

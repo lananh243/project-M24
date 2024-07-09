@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
 export const getAllUser: any = createAsyncThunk("users/getAllUser", async () => {
     let response = await axios.get("http://localhost:8080/users")
+    return response.data
+})
+export const getAllProduct: any = createAsyncThunk("products/getAllProduct", async () => {
+    let response = await axios.get("http://localhost:8080/products")
     return response.data
 })
 export const addUsers: any = createAsyncThunk(
@@ -13,30 +18,29 @@ export const addUsers: any = createAsyncThunk(
         return response.data;
     }
 );
-export const updateUserRole: any = createAsyncThunk(
+export const updateUserStatus: any = createAsyncThunk(
     "users/updateUserRole",
-    async ({ userId, newRole, newStatus }: any) => {
+    async (user: any) => {      
         await axios.patch(
-            `http://localhost:8080/users/${userId}`,
-            { role: newRole, status : newStatus  }
+            `http://localhost:8080/users/${user.id}`,
+            {status: user.status }
         );
         let response = await axios.get("http://localhost:8080/users")
         return response.data
     }
 );
-// export const updateUserStatus:any = createAsyncThunk(
-//     "users/updateUserStatus",
-//     async ({userId, newStatus}:any) => {
-//         await axios.patch(`http://localhost:8080/users/${userId}`, {status : newStatus})
-//         let response = await axios.get("http://localhost:8080/users")
-//         return response.data
-//     }
-    
-// )
+export const searchNameUser:any = createAsyncThunk (
+    "users/searchNameUser",
+    async (searchValue) => {
+        let response = await axios.get(`http://localhost:8080/users?fullname_like=${searchValue}`)
+        return response.data
+    }
+)
 const usersReducer = createSlice({
     name: "user",
     initialState: {
-        users: []
+        users: [],
+        products: []
     },
     reducers: {
 
@@ -52,15 +56,24 @@ const usersReducer = createSlice({
             .addCase(getAllUser.rejected, (state, action) => {
 
             })
+            .addCase(getAllProduct.fulfilled, (state, action) => {
+                state.products = action.payload
+            })
+            .addCase(getAllProduct.rejected, (state, action) => {
+
+            })
             .addCase(addUsers.fulfilled, (state: any, action: any) => {
                 state.users.push(action.payload)
             })
-            .addCase(updateUserRole.fulfilled, (state, action) => {
+            .addCase(updateUserStatus.fulfilled, (state, action) => {
                 state.users = action.payload;
             })
-            // .addCase(updateUserStatus.fulfilled, (state, action) => {
-            //     state.users = action.payload
-            // })
+            .addCase(searchNameUser.fulfilled, (state,action) => {
+                state.users = action.payload;
+            })
+        // .addCase(updateUserStatus.fulfilled, (state, action) => {
+        //     state.users = action.payload
+        // })
     },
 })
 export default usersReducer.reducer;

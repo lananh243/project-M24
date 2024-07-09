@@ -3,41 +3,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   getAllUser,
-  updateUserRole,
-  // updateUserStatus, // Import updateUserStatus from reducer
+  searchNameUser,
+  updateUserStatus,
 } from "../../store/reducers/usersReducer";
 
 export default function Customer() {
-  const [isOn, setIsOn] = useState(false);
   const dispatch = useDispatch();
   const data: any = useSelector((state) => state);
+  const [searchValue, setSearchValue] = useState("");
+  console.log(1111, data);
 
   useEffect(() => {
     dispatch(getAllUser());
   }, []);
 
   const handleToggle = (user: any) => {
-    setIsOn(!isOn);
     const { id, status } = user;
-    dispatch(updateUserStatus({ userId: id, newStatus: !status }));
+    const shouldConfirm = status; // Only confirm when status is true (active)
+
+    if (
+      shouldConfirm &&
+      !window.confirm("Bạn có chắc chắn muốn chặn user này không?")
+    ) {
+      return; // Exit function if not confirmed
+    }
+
+    dispatch(updateUserStatus({ id, status: !status }));
   };
 
-  const changeUserRole = (userId: any) => {
-    const user = data.usersReducer.users.find(
-      (user: any) => user.id === userId
-    );
-    if (user) {
-      dispatch(updateUserRole({ userId, newRole: !user?.role }));
-    }
+  const handleSearch = () => {
+    dispatch(searchNameUser(searchValue));
   };
-
-  const changeUserStatus = (userId: any) => {
-    const user = data.usersReducer.users.find(
-      (user: any) => user.id === userId
-    );
-    if (user) {
-      dispatch(updateUserStatus({ userId, newStatus: !user?.status }));
-    }
+  const getCurrentDate = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   return (
@@ -85,16 +87,35 @@ export default function Customer() {
             </b>
           </div>
         </div>
-        <div className="w-full bg-gray-200">
-          <div className="bg-white shadow-sm h-28 flex items-center w-full justify-between px-4">
+
+        <div
+          className="w-full bg-gray-200"
+          style={{ height: "100vh", overflowY: "scroll", position: "relative" }}
+        >
+          <div
+            className="bg-white shadow-sm h-28 flex items-center w-full justify-between px-4"
+            style={{ position: "sticky", top: 0, left: 0, zIndex: 1 }}
+          >
             <h2 className="text-lg mb-2">Orders</h2>
-            <div className="relative">
-              <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-              <input
-                placeholder="Tìm kiếm"
-                type="text"
-                className="pl-8 border-solid border-2 border-gray-400 rounded h-8 text-sm w-52"
-              />
+            <div className="flex gap-x-5">
+              <div className="relative">
+                <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input
+                  placeholder="Tìm kiếm"
+                  type="text"
+                  className="pl-8 border-solid border-2 border-gray-400 rounded h-8 text-sm w-52"
+                  value={searchValue}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSearchValue(e.target.value)
+                  }
+                />
+              </div>
+              <span
+                className="material-symbols-outlined text-3xl cursor-pointer"
+                onClick={handleSearch}
+              >
+                restart_alt
+              </span>
             </div>
           </div>
           <div className=" bg-white w-full my-10 p-4">
@@ -125,23 +146,17 @@ export default function Customer() {
                       <td className=" p-3">{index + 1}</td>
                       <td className=" p-3">{user.fullname}</td>
                       <td className=" p-3">{user.email}</td>
-                      <td
-                        className=" p-3 cursor-pointer"
-                        onClick={() => changeUserRole(user.id)}
-                      >
-                        {user.role ? "Admin" : "User"}
-                      </td>
-                      <td className=" p-3">2/3/2024</td>
+                      <td className=" p-3 cursor-pointer">{user.role}</td>
+                      <td className=" p-3">{getCurrentDate()}</td>
                       <td className=" p-3">
                         <div className="flex justify-evenly">
                           <button className="border border-gray-500 w-16 p-1 bg-blue-600 rounded-md text-white">
                             View
                           </button>
-                          {user.status ? (
+                          {user.role === "admin" ? (
                             <button
                               type="button"
                               className="border border-gray-500 w-16 p-1 bg-green-500 rounded-md text-white"
-                              onClick={() => changeUserStatus(user.id)}
                             >
                               Active
                             </button>
@@ -155,8 +170,8 @@ export default function Customer() {
                               <span
                                 className={`absolute left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
                                   user.status
-                                    ? "translate-x-4"
-                                    : "translate-x-0"
+                                    ? "translate-x-0"
+                                    : "translate-x-4"
                                 }`}
                               ></span>
                             </button>
@@ -165,21 +180,6 @@ export default function Customer() {
                       </td>
                     </tr>
                   ))}
-                  {/* 
-                  <tr className="border-y border-gray-200 p-3">
-                    <td className=" p-3">26384</td>
-                    <td className=" p-3">Lan chi</td>
-                    <td className=" p-3">chi@gmail.com</td>
-                    <td className=" p-3">User</td>
-                    <td className=" p-3">22/3/2024</td>
-                    <td className=" p-3">
-                      <div className="flex justify-evenly">
-                        <button className="border border-gray-500 w-16 bg-blue-600 rounded-md text-white">
-                          View
-                        </button>
-                      </div>
-                    </td>
-                  </tr> */}
                 </tbody>
               </table>
             </div>
