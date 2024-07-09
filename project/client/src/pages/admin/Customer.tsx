@@ -1,12 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  getAllUser,
+  updateUserRole,
+  // updateUserStatus, // Import updateUserStatus from reducer
+} from "../../store/reducers/usersReducer";
 
 export default function Customer() {
   const [isOn, setIsOn] = useState(false);
+  const dispatch = useDispatch();
+  const data: any = useSelector((state) => state);
 
-  const handleToggle = () => {
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, []);
+
+  const handleToggle = (user: any) => {
     setIsOn(!isOn);
+    const { id, status } = user;
+    dispatch(updateUserStatus({ userId: id, newStatus: !status }));
   };
+
+  const changeUserRole = (userId: any) => {
+    const user = data.usersReducer.users.find(
+      (user: any) => user.id === userId
+    );
+    if (user) {
+      dispatch(updateUserRole({ userId, newRole: !user?.role }));
+    }
+  };
+
+  const changeUserStatus = (userId: any) => {
+    const user = data.usersReducer.users.find(
+      (user: any) => user.id === userId
+    );
+    if (user) {
+      dispatch(updateUserStatus({ userId, newStatus: !user?.status }));
+    }
+  };
+
   return (
     <>
       <div className="flex">
@@ -87,23 +120,52 @@ export default function Customer() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-y border-gray-200 p-3">
-                    <td className=" p-3">12345</td>
-                    <td className=" p-3">Hoa Mai</td>
-                    <td className=" p-3">mai@gmail.com</td>
-                    <td className=" p-3">Admin</td>
-                    <td className=" p-3">2/3/2024</td>
-                    <td className=" p-3">
-                      <div className="flex justify-evenly">
-                        <button className="border border-gray-500 w-16 p-1 bg-blue-600 rounded-md text-white">
-                          View
-                        </button>
-                        <button className="border border-gray-500 w-16 p-1 bg-green-500 rounded-md text-white">
-                          Active
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  {data.usersReducer.users.map((user: any, index: number) => (
+                    <tr className="border-y border-gray-200 p-3" key={user.id}>
+                      <td className=" p-3">{index + 1}</td>
+                      <td className=" p-3">{user.fullname}</td>
+                      <td className=" p-3">{user.email}</td>
+                      <td
+                        className=" p-3 cursor-pointer"
+                        onClick={() => changeUserRole(user.id)}
+                      >
+                        {user.role ? "Admin" : "User"}
+                      </td>
+                      <td className=" p-3">2/3/2024</td>
+                      <td className=" p-3">
+                        <div className="flex justify-evenly">
+                          <button className="border border-gray-500 w-16 p-1 bg-blue-600 rounded-md text-white">
+                            View
+                          </button>
+                          {user.status ? (
+                            <button
+                              type="button"
+                              className="border border-gray-500 w-16 p-1 bg-green-500 rounded-md text-white"
+                              onClick={() => changeUserStatus(user.id)}
+                            >
+                              Active
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleToggle(user)}
+                              className={`relative w-12 h-8 flex items-center rounded-full p-1 transition-colors duration-300 focus:outline-none ${
+                                user.status ? "bg-green-500" : "bg-red-500"
+                              }`}
+                            >
+                              <span
+                                className={`absolute left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                                  user.status
+                                    ? "translate-x-4"
+                                    : "translate-x-0"
+                                }`}
+                              ></span>
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {/* 
                   <tr className="border-y border-gray-200 p-3">
                     <td className=" p-3">26384</td>
                     <td className=" p-3">Lan chi</td>
@@ -115,21 +177,9 @@ export default function Customer() {
                         <button className="border border-gray-500 w-16 bg-blue-600 rounded-md text-white">
                           View
                         </button>
-                        <button
-                          onClick={handleToggle}
-                          className={`relative w-12 h-8 flex items-center rounded-full p-1 transition-colors duration-300 focus:outline-none ${
-                            isOn ? "bg-green-500" : "bg-red-500"
-                          }`}
-                        >
-                          <span
-                            className={`absolute left-1 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                              isOn ? "translate-x-4" : "translate-x-0"
-                            }`}
-                          ></span>
-                        </button>
                       </div>
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>

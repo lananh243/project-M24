@@ -1,10 +1,52 @@
 {
   "users": [
     {
-      "fullName": "Lan Anh",
-      "email": "na@gmail.com",
+      "user_id": 1995373,
+      "fullname": "Lan Anh",
+      "email": "anh@gmail.com",
       "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "0356276478",
+      "address": "Phú Thọ",
+      "status": false,
+      "role": true,
       "id": 1
+    },
+    {
+      "user_id": 5725082,
+      "fullname": "Ngọc Lan ",
+      "email": "lan@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "67487579932",
+      "address": "Hà Nội",
+      "status": true,
+      "role": true,
+      "id": 2
+    },
+    {
+      "user_id": 219259,
+      "fullname": "Phương Linh",
+      "email": "linh@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "0983475893",
+      "address": "Hà Nội",
+      "status": true,
+      "role": false,
+      "id": 3
+    },
+    {
+      "user_id": 2413509,
+      "fullname": "Minh Lý",
+      "email": "ly@gmail.com",
+      "password": "123456",
+      "confirmPassword": "123456",
+      "phone": "0837478586",
+      "address": "Hà Nam",
+      "status": true,
+      "role": true,
+      "id": 4
     }
   ]
 }

@@ -1,22 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Carousel } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { getAllUser } from "../../../store/reducers/usersReducer";
 
 export default function Home() {
   const [loggedIn, setLoggedIn] = useState(false); // State to track login status
   const [userData, setUserData] = useState(null); // State to hold user data
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllUser())
+  })
   // Example function to handle login
   const handleLogin = () => {
-    // Perform login logic here
-    // For demonstration, setting dummy user data
-    const user: any = {
-      name: "Bảo bảo",
-      image:
-        "https://thuthuatnhanh.com/wp-content/uploads/2022/06/Anh-em-be-Han-Quoc-dep.jpg",
-    };
-    setUserData(user);
-    setLoggedIn(true);
+   dispatch(g)
   };
 
   // Example function to handle logout

@@ -1,44 +1,60 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-
+interface User {
+  name: string;
+  email: string;
+  password: string;
+}
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [errorEmail, setErrEmail] = useState("");
-  const navigate = useNavigate();
-  const [existEmail, setExistEmail] = useState<any[]>([]);
+  const [password, setPassword] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+  const [passwordStatus, setPasswordStatus] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/users")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
 
   const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  const handleShow = () => {
-    if (existEmail.includes(email)) {
-      setErrEmail("Email đã tồn tại. Mời bạn nhập email khác.");
-      setShow(true);
-    } else {
-      setExistEmail([...existEmail, email]);
-      navigate("/");
-    }
-  };
-
-  const [passwordStatus, setPasswordStatus] = useState(false);
   const progress = () => {
     setPasswordStatus(!passwordStatus);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const user = users.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (user) {
+      navigate("/");
+    } else {
+      handleShow();
+    }
+    console.log(user);
   };
 
   return (
     <div className="login">
       <img
-        src="https://lh4.googleusercontent.com/proxy/H51ZnIsdWI3y90mwheCgseMuwIj8v0rRCw4Q2s1gsa-er0nIFghwVjQ-kiJH_COgpBidSSsEBBlwnioS50X9UKZ0KKQv4vvnFL3F4V4kkbSkf7j1-JITKnxhjmhB-zC50ueg9L4wSxXXfTlLzA"
+        src="https://png.pngtree.com/background/20230604/original/pngtree-pink-soft-watercolor-pastel-background-for-wedding-invitation-picture-image_2872970.jpg"
         alt=""
         className="login__img"
       />
-      <form action="" className="login__form" onSubmit={handleSubmit}>
+      <form className="login__form" onSubmit={handleSubmit}>
         <h1 className="login__title">Đăng nhập</h1>
         <div className="login__content">
           <div className="login__box">
@@ -50,9 +66,7 @@ export default function Login() {
                 required
                 placeholder=" "
               />
-              <label htmlFor="" className="login__label">
-                Họ và tên
-              </label>
+              <label className="login__label">Họ và tên</label>
             </div>
           </div>
           <div className="login__box">
@@ -64,13 +78,9 @@ export default function Login() {
                 required
                 placeholder=" "
                 value={email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <label htmlFor="" className="login__label">
-                Email
-              </label>
+              <label className="login__label">Email</label>
             </div>
           </div>
           <div className="login__box">
@@ -80,17 +90,15 @@ export default function Login() {
                 type={passwordStatus ? "text" : "password"}
                 className="login__input"
                 required
-                id="login-pass"
                 placeholder=" "
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <label htmlFor="" className="login__label">
-                Mật khẩu
-              </label>
+              <label className="login__label">Mật khẩu</label>
               <i
                 className={`fa-regular ${
                   passwordStatus ? "fa-eye" : "fa-eye-slash"
                 } login__eye`}
-                id="login-eye"
                 onClick={progress}
               ></i>
             </div>
@@ -99,9 +107,7 @@ export default function Login() {
         <div className="login__check">
           <div className="login__check-group">
             <input type="checkbox" className="login__check-input" />
-            <label htmlFor="" className="login__check-label">
-              Remember me
-            </label>
+            <label className="login__check-label">Remember me</label>
           </div>
         </div>
         <button
@@ -115,12 +121,13 @@ export default function Login() {
           Bạn chưa có tài khoản ? <Link to="/register">Đăng kí</Link>
         </p>
       </form>
+      {/* Modal component for showing error messages */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className="text-red-600">Lỗi</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-red-500">
-          {errorEmail && <p>{errorEmail}</p>}
+          <p>Email hoặc mật khẩu không chính xác.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
