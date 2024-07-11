@@ -84,7 +84,6 @@ export default function Register() {
   const handleCheck = () => {
     if (validateInput()) {
       const newUser = {
-        user_id: Math.floor(Math.random() * 10000000),
         fullname: fullName,
         email: email,
         password: password,

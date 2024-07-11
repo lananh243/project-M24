@@ -32,7 +32,7 @@
       "confirmPassword": "123456",
       "phone": "9456748893",
       "address": "Hà Nam",
-      "status": false,
+      "status": true,
       "role": "user",
       "id": 3
     },
@@ -55,84 +55,109 @@
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/3-3-300x300.png.bv_resized_desktop.png.bv.webp",
       "category": "Hoa len bó",
       "name": "Hoa lưu ly",
-      "price": "70.000 ₫"
+      "price": "70.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":10
     },
     {
       "id": 2,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/2-2-300x300.png.bv_resized_desktop.png.bv.webp",
       "category": "Áo len đan",
       "name": "Áo len họa tiết",
-      "price": "121.000 ₫"
+      "price": "121.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":20
     },
     {
       "id": 3,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/3-3-300x300.png.bv_resized_desktop.png.bv.webp",
       "category": "Áo len đan",
       "name": "Áo len trắng ngọc",
-      "price": "100.000 ₫"
+      "price": "100.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":6
     },
     {
       "id": 4,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/05/1-2-300x300.png.bv_resized_desktop.png.bv.webp",
       "category": "Áo len đan",
       "name": "Áo len xanh ngọc",
-      "price": "99.000 ₫"
+      "price": "99.000 ₫",
+      "status": "Hết hàng",
+      "stock_quantity":60
     },
     {
       "id": 5,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436227269_779604164143634_7965383776702395380_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
       "category": "Gấu nhỏ",
       "name": "Gấu đội mũ",
-      "price": "22.000 ₫"
+      "price": "22.000 ₫",
+      "status": "Hết hàng",
+      "stock_quantity":30
     },
     {
       "id": 6,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436624946_1159399751737485_503098841301846950_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
       "category": "Thú len",
       "name": "Gấu nhỏ 5 màu",
-      "price": "40.000 ₫"
+      "price": "40.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":40
     },
     {
       "id": 7,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/5-300x300.png.bv_resized_desktop.png.bv.webp",
       "category": "Thú len",
       "name": "Chậu hoa đầu thú",
-      "price": "99.000 ₫"
+      "price": "99.000 ₫",
+      "status": "Hết hàng",
+      "stock_quantity":10
     },
     {
       "id": 8,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436380202_772053777962524_6032889301681875682_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
       "category": "Sét đồ thú vị",
       "name": "Sét ếch",
-      "price": "299.000 ₫"
+      "price": "299.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":10
     },
     {
       "id": 9,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_435461200_1609454623133922_3011892420051387273_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
       "category": "Sét đồ thú vị",
       "name": "Sét kuromi",
-      "price": "300.000 ₫"
+      "price": "300.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":10
     },
     {
       "id": 10,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436227259_386451300961434_227844149117653959_n_1080-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
       "category": "Sét đồ thú vị",
       "name": "Sét loppy hồng",
-      "price": "340.000 ₫"
+      "price": "340.000 ₫",
+      "status": "Hết hàng",
+      "stock_quantity":38
     },
     {
       "id": 11,
       "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/Snapinsta.app_436616783_309579678821451_4980076836134553827_n_1080-1-300x300.jpg.bv_resized_desktop.jpg.bv.webp",
       "category": "Sét đồ thú vị",
       "name": "Sét chũi nâu",
-      "price": "140.000 ₫"
+      "price": "140.000 ₫",
+      "status": "Còn hàng",
+      "stock_quantity":50
     },
     {
+      "name": "Đồ trang trí",
+      "price": "50.000 đ",
+      "category": "Tự làm",
+      "status": "Còn hàng",
+      "description": "",
+      "image": "https://firebasestorage.googleapis.com/v0/b/lan-anh-f6a8a.appspot.com/o/upload-image%2Fproduct2.jpg?alt=media&token=d2df3ec5-1cfc-48a9-9047-2cc408b3696e",
       "id": 12,
-      "image": "https://beelenhandmade.com/wp-content/uploads/al_opt_content/IMAGE/beelenhandmade.com/wp-content/uploads/2024/06/2-2-300x300.png.bv_resized_desktop.png.bv.webp",
-      "category": "Túi len",
-      "name": "Túi mini",
-      "price": "110.000 ₫"
+      "stock_quantity":50
     }
   ]
 }

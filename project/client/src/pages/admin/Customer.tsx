@@ -6,26 +6,33 @@ import {
   searchNameUser,
   updateUserStatus,
 } from "../../store/reducers/usersReducer";
+import { Button, Modal } from "react-bootstrap";
+import { Users } from "../../interfaces";
 
 export default function Customer() {
   const dispatch = useDispatch();
   const data: any = useSelector((state) => state);
   const [searchValue, setSearchValue] = useState("");
   console.log(1111, data);
-
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<Users | null>(null);
   useEffect(() => {
     dispatch(getAllUser());
   }, []);
+  const handleViewDetails = (user: any) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
 
   const handleToggle = (user: any) => {
     const { id, status } = user;
-    const shouldConfirm = status; // Only confirm when status is true (active)
+    const shouldConfirm = status;
 
     if (
       shouldConfirm &&
       !window.confirm("Bạn có chắc chắn muốn chặn user này không?")
     ) {
-      return; // Exit function if not confirmed
+      return;
     }
 
     dispatch(updateUserStatus({ id, status: !status }));
@@ -150,7 +157,10 @@ export default function Customer() {
                       <td className=" p-3">{getCurrentDate()}</td>
                       <td className=" p-3">
                         <div className="flex justify-evenly">
-                          <button className="border border-gray-500 w-16 p-1 bg-blue-600 rounded-md text-white">
+                          <button
+                            className="border border-gray-500 w-16 p-1 bg-blue-600 rounded-md text-white"
+                            onClick={() => handleViewDetails(user)}
+                          >
                             View
                           </button>
                           {user.role === "admin" ? (
@@ -198,6 +208,29 @@ export default function Customer() {
           </div>
         </div>
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Chi tiết người dùng</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedUser && (
+            <div>
+              <p>
+                <b>Tên đăng nhập:</b> {selectedUser.fullname}
+              </p>
+              <p>
+                <b>Email:</b> {selectedUser.email}
+              </p>
+              <p>
+                <b>Vai trò:</b> {selectedUser.role}
+              </p>
+              <p>
+                <b>Ngày đăng ký:</b> {getCurrentDate()}
+              </p>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

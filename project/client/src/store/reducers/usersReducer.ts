@@ -5,10 +5,6 @@ export const getAllUser: any = createAsyncThunk("users/getAllUser", async () => 
     let response = await axios.get("http://localhost:8080/users")
     return response.data
 })
-export const getAllProduct: any = createAsyncThunk("products/getAllProduct", async () => {
-    let response = await axios.get("http://localhost:8080/products")
-    return response.data
-})
 export const addUsers: any = createAsyncThunk(
     "users/addUsers",
     async (user: any) => {
@@ -40,7 +36,6 @@ const usersReducer = createSlice({
     name: "user",
     initialState: {
         users: [],
-        products: []
     },
     reducers: {
 
@@ -54,12 +49,6 @@ const usersReducer = createSlice({
                 state.users = action.payload;
             })
             .addCase(getAllUser.rejected, (state, action) => {
-
-            })
-            .addCase(getAllProduct.fulfilled, (state, action) => {
-                state.products = action.payload
-            })
-            .addCase(getAllProduct.rejected, (state, action) => {
 
             })
             .addCase(addUsers.fulfilled, (state: any, action: any) => {

@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  getAllProduct,
-  getAllUser,
-} from "../../../store/reducers/usersReducer";
+import { getAllProduct } from "../../../store/reducers/productReducer";
 
 export default function Home() {
   const [account, setAccount] = useState(
@@ -13,7 +10,7 @@ export default function Home() {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const data: any = useSelector((state: any) => state.usersReducer.products);
+  const data: any = useSelector((state: any) => state.productReducer.products);
   console.log(data);
   useEffect(() => {
     dispatch(getAllProduct());
@@ -180,7 +177,7 @@ export default function Home() {
         <div className="grid grid-cols-4 gap-4 m-10">
           {data.map((item: any) => (
             <Card key={item.id} style={{ width: "16rem", margin: "0 auto" }}>
-              <Card.Img variant="top" src={item.image} />
+              <Card.Img variant="top" src={item.image} className="h-64" />
               <Card.Body>
                 <Card.Title className="text-gray-500">{item.name}</Card.Title>
                 <Card.Text className="font-medium text-red-500">

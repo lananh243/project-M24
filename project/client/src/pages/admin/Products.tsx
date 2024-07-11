@@ -1,14 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import swal from "sweetalert";
 import { Link } from "react-router-dom";
-import { getAllProduct } from "../../store/reducers/usersReducer";
+import {
+  deleteProduct,
+  getAllProduct,
+  searchNameProduct,
+  sortNameProduct,
+} from "../../store/reducers/productReducer";
+import { Button, Modal } from "react-bootstrap";
+import { Product } from "../../interfaces";
 
 export default function Products() {
   const data: any = useSelector((state) => state);
+  const [show, setShow] = useState(false);
+  const [quickView, setQuickView] = useState<Product | null>(null);
+  const handleClose = () => setShow(false);
+  const handleShow = (product: any) => {
+    setQuickView(product);
+    setShow(true);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProduct());
   }, []);
+  const handleDeleteProduct = (id: number) => {
+    swal({
+      title: "Bạn có muốn xóa sản phẩm này không?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteProduct(id));
+        swal("Sản phẩm của bạn đã bị xóa!", {
+          icon: "success",
+        });
+      } else {
+        swal("Sản phẩm của bạn không bị xóa!");
+      }
+    });
+  };
+  // Tìm kiếm sản phẩm theo tên
+  const [searchName, setSearchName] = useState("");
+  const handleSearch = () => {
+    dispatch(searchNameProduct(searchName));
+  };
+  // Sắp xếp theo tên
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const order = e.target.value;
+    dispatch(sortNameProduct(order));
+  };
   return (
     <>
       <div className="flex">
@@ -63,13 +105,25 @@ export default function Products() {
             style={{ position: "sticky", top: 0, left: 0, zIndex: 1 }}
           >
             <h2 className="text-lg mb-2">Products</h2>
-            <div className="relative">
-              <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
-              <input
-                placeholder="Tìm kiếm"
-                type="text"
-                className="pl-8 border-solid border-2 border-gray-400 rounded h-8 text-sm w-52"
-              />
+            <div className="flex gap-x-5">
+              <div className="relative">
+                <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input
+                  placeholder="Tìm kiếm"
+                  type="text"
+                  className="pl-8 border-solid border-2 border-gray-400 rounded h-8 text-sm w-52"
+                  value={searchName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSearchName(e.target.value)
+                  }
+                />
+              </div>
+              <span
+                className="material-symbols-outlined text-3xl cursor-pointer"
+                onClick={handleSearch}
+              >
+                restart_alt
+              </span>
             </div>
           </div>
 
@@ -86,8 +140,10 @@ export default function Products() {
                 name=""
                 id=""
                 className="border-solid border-2 border-gray-400 py-1 px-2 text-sm"
+                onChange={handleSort}
               >
-                <option value="">Sort by : Id</option>
+                <option value="asc">Sort by: Name (Ascending)</option>
+                <option value="desc">Sort by: Name (Descending)</option>
               </select>
             </div>
             <div className="overflow-x-auto">
@@ -99,12 +155,13 @@ export default function Products() {
                     <th className="p-3">Status</th>
                     <th className="p-3">Category</th>
                     <th className="p-2">Price</th>
+                    <th className="p-2">Tồn kho</th>
                     <th className="p-2">Image</th>
                     <th className="p-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.usersReducer.products.map(
+                  {data.productReducer.products.map(
                     (product: any, index: number) => (
                       <tr
                         className="border-y border-gray-200 p-3 text-center"
@@ -112,15 +169,19 @@ export default function Products() {
                       >
                         <td className=" p-3">{index + 1}</td>
                         <td className=" p-3">{product.name}</td>
-                        <td className=" p-3">Có sẵn</td>
+                        <td className=" p-3">{product.status}</td>
                         <td className=" p-3">{product.category}</td>
                         <td className=" p-3">{product.price}</td>
+                        <td className=" p-3">{product.stock_quantity}</td>
                         <td className="p-3 w-52 h-52">
                           <img src={product.image} alt="" />
                         </td>
                         <td className=" p-3">
                           <div className="flex justify-evenly">
-                            <button className="text-sm p-1 border border-slate-300 w-14 bg-blue-400 text-white rounded-md">
+                            <button
+                              className="text-sm p-1 border border-slate-300 w-14 bg-blue-400 text-white rounded-md"
+                              onClick={() => handleShow(product)}
+                            >
                               View
                             </button>
                             <Link to="/admin/products/update">
@@ -129,7 +190,10 @@ export default function Products() {
                               </button>
                             </Link>
 
-                            <button className="text-sm p-1 border border-slate-300 w-14 bg-red-400 rounded-md text-white">
+                            <button
+                              onClick={() => handleDeleteProduct(product.id)}
+                              className="text-sm p-1 border border-slate-300 w-14 bg-red-400 rounded-md text-white"
+                            >
                               Delete
                             </button>
                           </div>
@@ -150,6 +214,42 @@ export default function Products() {
             </div>
           </div>
         </div>
+
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Xem sản phẩm</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {quickView && (
+              <div>
+                <p>
+                  <b>Tên sản phẩm : </b>
+                  {quickView.name}
+                </p>
+                <p>
+                  <b>Danh mục sản phẩm : </b>
+                  {quickView.category}
+                </p>
+                <p>
+                  <b>Trạng thái : </b>
+                  {quickView.status}
+                </p>
+                <p>
+                  <b>Giá : </b>
+                  {quickView.price}
+                </p>
+                <p>
+                  <b>Số lượng tồn kho : </b>
+                  {quickView.stock_quantity}
+                </p>
+                <p>
+                  <b>Ảnh sản phẩm : </b>
+                  <img src={quickView.image} alt="" />
+                </p>
+              </div>
+            )}
+          </Modal.Body>
+        </Modal>
       </div>
     </>
   );
