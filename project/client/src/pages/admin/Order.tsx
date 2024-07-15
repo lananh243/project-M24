@@ -21,10 +21,10 @@ export default function Order() {
               <Link to="/admin/control">Bảng điều khiển</Link>
             </b>
           </div>
-          <div className="mx-14 my-6">
+          <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
             <i className="fa-solid fa-address-card text-white"></i>
             <b className="mx-3 text-white whitespace-nowrap">
-              Quản lí nhân viên
+              <Link to="/admin/category">Quản lí danh mục</Link>
             </b>
           </div>
 
@@ -73,8 +73,7 @@ export default function Order() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-center">
-                    <th className="p-3">ID</th>
-                    <th className="p-3">Tên sản phẩm</th>
+                    <th className="p-3">Tên người đặt</th>
                     <th className="p-3">Id User</th>
                     <th className="p-3">Status</th>
                     <th className="p-2">Total Price</th>
@@ -85,7 +84,6 @@ export default function Order() {
                 </thead>
                 <tbody>
                   <tr className="border-y border-gray-200 p-3 text-center">
-                    <td className=" p-3">134747</td>
                     <td className=" p-3">Hoa hồng</td>
                     <td className=" p-3">345NT</td>
                     <td className=" p-3">Đang giao hàng</td>

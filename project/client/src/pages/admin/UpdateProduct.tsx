@@ -2,67 +2,35 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { storage } from "../../config/config";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllProduct,
-  updateProduct,
-} from "../../store/reducers/productReducer";
+import { useDispatch } from "react-redux";
+import { updateProduct } from "../../store/reducers/productReducer";
+import { Product } from "../../interfaces";
 
 export default function UpdateProduct() {
-  const { productId } = useParams();
+  // const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const product = useSelector((state: any) =>
-    state.productReducer.products.find((p: any) => p.id === Number(productId))
+
+  const product: Product = JSON.parse(
+    localStorage.getItem("product_update") || "{}"
   );
+  const [formData, setFormData] = useState({ ...product });
 
-  const [formData, setFormData] = useState({
-    id: productId,
-    name: "",
-    price: "",
-    category: "",
-    status: "",
-    stock_quantity: "",
-    image: "https://vnsteelthanglong.vn/core/img/default_image.png",
-    description: "",
-  });
+  // const handleInputChange = (e: any) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
 
-  useEffect(() => {
-    if (!product) {
-      dispatch(getAllProduct());
-    }
-  }, [product, dispatch]);
-
-  useEffect(() => {
-    if (product) {
-      setFormData({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        category: product.category,
-        status: product.status,
-        stock_quantity: product.stock_quantity,
-        image: product.image,
-        description: product.description,
-      });
-    }
-  }, [product]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const changeImage = async (e) => {
+  const changeImage = async (e: any) => {
     const selectedImage = e.target.files?.[0];
     if (selectedImage) {
       const imageRef = ref(storage, `upload-image/${selectedImage.name}`);
       const snapshot = await uploadBytes(imageRef, selectedImage);
       const url = await getDownloadURL(snapshot.ref);
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         image: url,
       }));
@@ -92,9 +60,11 @@ export default function UpdateProduct() {
             <Link to="/admin/control">Bảng điều khiển</Link>
           </b>
         </div>
-        <div className="mx-14 my-6">
+        <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
           <i className="fa-solid fa-address-card text-white"></i>
-          <b className="mx-3 text-white whitespace-nowrap">Quản lí nhân viên</b>
+          <b className="mx-3 text-white whitespace-nowrap">
+            <Link to="/admin/category">Quản lí danh mục</Link>{" "}
+          </b>
         </div>
         <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
           <i className="fa-solid fa-tag text-white"></i>
@@ -142,7 +112,9 @@ export default function UpdateProduct() {
               name="name"
               className="border border-indigo-600 w-full h-10 rounded-lg pl-2"
               value={formData.name}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
             <br />
             <br />
@@ -152,7 +124,9 @@ export default function UpdateProduct() {
               name="price"
               className="border border-indigo-600 w-full h-10 rounded-lg pl-2"
               value={formData.price}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData({ ...formData, price: e.target.value })
+              }
             />
             <br />
             <br />
@@ -162,7 +136,9 @@ export default function UpdateProduct() {
               name="category"
               className="border border-indigo-600 w-full h-10 rounded-lg pl-2"
               value={formData.category}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
             />
             <br />
             <br />
@@ -172,7 +148,9 @@ export default function UpdateProduct() {
               name="stock_quantity"
               className="border border-indigo-600 w-full h-10 rounded-lg pl-2"
               value={formData.stock_quantity}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData({ ...formData, stock_quantity: e.target.value })
+              }
             />
             <br />
             <br />
@@ -182,7 +160,9 @@ export default function UpdateProduct() {
               name="status"
               className="border border-indigo-600 w-full h-10 rounded-lg pl-2"
               value={formData.status}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
             />
             <br />
             <br />
@@ -194,13 +174,15 @@ export default function UpdateProduct() {
             <br />
             <br />
             <p>Description</p>
-            <input
-              type="text"
+            <textarea
               name="description"
+              id=""
               className="border border-indigo-600 w-full h-24 rounded-lg pl-2"
               value={formData.description}
-              onChange={handleInputChange}
-            />
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+            ></textarea>
             <br />
             <br />
             <div className="flex justify-end">

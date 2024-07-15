@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 export default function DetailOrder() {
@@ -21,10 +20,10 @@ export default function DetailOrder() {
               <Link to="/admin/control">Bảng điều khiển</Link>
             </b>
           </div>
-          <div className="mx-14 my-6">
+          <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center bg-slate-400">
             <i className="fa-solid fa-address-card text-white"></i>
             <b className="mx-3 text-white whitespace-nowrap">
-              Quản lí nhân viên
+              <Link to="/admin/category">Quản lí danh mục</Link>
             </b>
           </div>
 
@@ -43,7 +42,7 @@ export default function DetailOrder() {
           <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
             <i className="fa-solid fa-users-gear text-white"></i>
             <b className="mx-3 text-white">
-              <Link to="/admin/customer">Quản lí khách hàng</Link>{" "}
+              <Link to="/admin/customer">Quản lí khách hàng</Link>
             </b>
           </div>
         </div>
@@ -63,7 +62,7 @@ export default function DetailOrder() {
             <h1>Thông tin đơn hàng</h1>
             <div className="space-y-2 ml-44">
               <div className="flex items-center">
-                <b className="w-40">Mã đơn hàng</b>
+                <b className="w-40">Sản phẩm</b>
                 <p className="ml-20">00000</p>
               </div>
               <div className="flex items-center">

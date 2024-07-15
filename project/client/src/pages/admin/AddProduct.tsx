@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config/config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct, getAllProduct } from "../../store/reducers/productReducer";
+import { getAllCategory } from "../../store/reducers/categoryReducer";
 
 export default function AddProduct() {
   const [image, setImage] = useState(
@@ -12,10 +13,10 @@ export default function AddProduct() {
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState<number>(0);
   const [status, setStatus] = useState("");
   const [stock_quantity, setStock_quantity] = useState("");
-  const [description, setDescription] = useState("");
+  // const [description, setDescription] = useState("");
 
   const changeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     let selectedImage = e.target.files?.[0];
@@ -30,27 +31,28 @@ export default function AddProduct() {
   };
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const data: any = useSelector((state) => state);
   useEffect(() => {
     dispatch(getAllProduct());
+    dispatch(getAllCategory());
   }, [dispatch]);
 
   const handleAddProduct = () => {
     let newProduct = {
       name,
       price,
-      category,
+      categoryId,
       status,
-      description,
+      stock_quantity,
       image,
     };
 
     dispatch(addProduct(newProduct));
     setName("");
     setPrice("");
-    setCategory("");
+    setCategoryId(0);
     setStatus("");
-    setDescription("");
+    setStock_quantity;
     setImage("https://vnsteelthanglong.vn/core/img/default_image.png");
     navigate("/admin/products");
   };
@@ -73,9 +75,11 @@ export default function AddProduct() {
             <Link to="/admin/control">Bảng điều khiển</Link>
           </b>
         </div>
-        <div className="mx-14 my-6">
+        <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
           <i className="fa-solid fa-address-card text-white"></i>
-          <b className="mx-3 text-white whitespace-nowrap">Quản lí nhân viên</b>
+          <b className="mx-3 text-white whitespace-nowrap">
+            <Link to="/admin/category">Quản lí danh mục</Link>{" "}
+          </b>
         </div>
         <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
           <i className="fa-solid fa-tag text-white"></i>
@@ -146,14 +150,19 @@ export default function AddProduct() {
             <br />
             <br />
             <p>Category</p>
-            <input
-              type="text"
+            <select
+              name=""
+              id=""
               className=" border border-indigo-600 w-full h-10 rounded-lg pl-2"
-              value={category}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setCategory(e.target.value)
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setCategoryId(Number(e.target.value))
               }
-            />
+            >
+              <option value={0}>Chọn danh mục</option>
+              {data.categoryReducer.categorys.map((category: any) => (
+                <option value={category.id}>{category.name}</option>
+              ))}
+            </select>
             <br />
             <br />
             <p>Số lượng tồn kho</p>
@@ -190,7 +199,7 @@ export default function AddProduct() {
             </label>
             <br />
             <br />
-            <p>Description</p>
+            {/* <p>Description</p>
             <textarea
               name=""
               id=""
@@ -201,7 +210,7 @@ export default function AddProduct() {
               }
             ></textarea>
             <br />
-            <br />
+            <br /> */}
             <div className="flex justify-end">
               <button
                 className="border border-indigo-600 w-56 h-10 rounded-lg bg-stone-600 text-white"

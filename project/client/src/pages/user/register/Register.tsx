@@ -78,21 +78,19 @@ export default function Register() {
     return validate;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   const handleCheck = () => {
     if (validateInput()) {
       const newUser = {
         fullname: fullName,
         email: email,
         password: password,
-        confirmPassword: confirmPassword,
         phone: phone,
         address: address,
         status: true,
         role: "user",
+        cart: [],
       };
+
       dispatch(addUsers(newUser));
       setShowSuccess(true);
       setFullName("");
@@ -109,6 +107,7 @@ export default function Register() {
       setShow(true);
     }
   };
+
   return (
     <div className="login">
       <img
@@ -116,7 +115,7 @@ export default function Register() {
         alt=""
         className="login__img"
       />
-      <form action="" className="login__form mt-8" onSubmit={handleSubmit}>
+      <form action="" className="login__form mt-8">
         <h1 className="login__title">Đăng kí</h1>
         <div className="login__content ">
           <div className="login__box">
@@ -241,7 +240,7 @@ export default function Register() {
           </div>
         </div>
         <button
-          type="submit"
+          type="button"
           className="login__button text-xl"
           onClick={handleCheck}
         >

@@ -1,36 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { addNewUser, getUser, searchUser, updateStatus } from "../../service/user.service";
 
-export const getAllUser: any = createAsyncThunk("users/getAllUser", async () => {
-    let response = await axios.get("http://localhost:8080/users")
-    return response.data
-})
+export const getAllUser: any = createAsyncThunk(
+    "users/getAllUser", getUser)
 export const addUsers: any = createAsyncThunk(
-    "users/addUsers",
-    async (user: any) => {
-        const response = await axios.post(
-            "http://localhost:8080/users", user
-        );
-        return response.data;
-    }
+    "users/addUsers", addNewUser
 );
 export const updateUserStatus: any = createAsyncThunk(
-    "users/updateUserRole",
-    async (user: any) => {      
-        await axios.patch(
-            `http://localhost:8080/users/${user.id}`,
-            {status: user.status }
-        );
-        let response = await axios.get("http://localhost:8080/users")
-        return response.data
-    }
+    "users/updateUserRole", updateStatus
 );
-export const searchNameUser:any = createAsyncThunk (
-    "users/searchNameUser",
-    async (searchValue) => {
-        let response = await axios.get(`http://localhost:8080/users?fullname_like=${searchValue}`)
-        return response.data
-    }
+export const searchNameUser: any = createAsyncThunk(
+    "users/searchNameUser", searchUser
 )
 const usersReducer = createSlice({
     name: "user",
@@ -52,12 +32,12 @@ const usersReducer = createSlice({
 
             })
             .addCase(addUsers.fulfilled, (state: any, action: any) => {
-                state.users.push(action.payload)
+                state.users = action.payload;
             })
             .addCase(updateUserStatus.fulfilled, (state, action) => {
                 state.users = action.payload;
             })
-            .addCase(searchNameUser.fulfilled, (state,action) => {
+            .addCase(searchNameUser.fulfilled, (state, action) => {
                 state.users = action.payload;
             })
         // .addCase(updateUserStatus.fulfilled, (state, action) => {

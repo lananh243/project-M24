@@ -41,14 +41,6 @@ export default function Customer() {
   const handleSearch = () => {
     dispatch(searchNameUser(searchValue));
   };
-  const getCurrentDate = () => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
   return (
     <>
       <div className="flex">
@@ -68,10 +60,10 @@ export default function Customer() {
               <Link to="/admin/control">Bảng điều khiển</Link>
             </b>
           </div>
-          <div className="mx-14 my-6">
+          <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
             <i className="fa-solid fa-address-card text-white"></i>
             <b className="mx-3 text-white whitespace-nowrap">
-              Quản lí nhân viên
+              <Link to="/admin/category">Quản lí danh mục</Link>
             </b>
           </div>
 
@@ -143,7 +135,6 @@ export default function Customer() {
                     <th className="p-3">Tên đăng nhập</th>
                     <th className="p-3">Email</th>
                     <th className="p-3">Role</th>
-                    <th className="p-2">Date</th>
                     <th className="p-2">Action</th>
                   </tr>
                 </thead>
@@ -154,7 +145,6 @@ export default function Customer() {
                       <td className=" p-3">{user.fullname}</td>
                       <td className=" p-3">{user.email}</td>
                       <td className=" p-3 cursor-pointer">{user.role}</td>
-                      <td className=" p-3">{getCurrentDate()}</td>
                       <td className=" p-3">
                         <div className="flex justify-evenly">
                           <button
@@ -223,9 +213,6 @@ export default function Customer() {
               </p>
               <p>
                 <b>Vai trò:</b> {selectedUser.role}
-              </p>
-              <p>
-                <b>Ngày đăng ký:</b> {getCurrentDate()}
               </p>
             </div>
           )}

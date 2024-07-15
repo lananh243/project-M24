@@ -21,10 +21,10 @@ export default function Admin() {
               <Link to="/admin/control">Bảng điều khiển</Link>
             </b>
           </div>
-          <div className="mx-14 my-6">
+          <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center bg-slate-400">
             <i className="fa-solid fa-address-card text-white"></i>
             <b className="mx-3 text-white whitespace-nowrap">
-              Quản lí nhân viên
+              <Link to="/admin/category">Quản lí danh mục</Link>
             </b>
           </div>
           <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">

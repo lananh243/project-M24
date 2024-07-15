@@ -3,6 +3,8 @@ import { Button, Card, Carousel } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProduct } from "../../../store/reducers/productReducer";
+import { Product } from "../../../interfaces";
+import { getAllUser } from "../../../store/reducers/usersReducer";
 
 export default function Home() {
   const [account, setAccount] = useState(
@@ -29,6 +31,23 @@ export default function Home() {
       navigate("/login");
     }
   };
+
+  // Ham chuyen sang trang detail
+  const handleDetail = (id: number, product: Product) => {
+    navigate(`/detailProduct/${id}`);
+  };
+
+  // lấy user
+  const users = useSelector((state: any) => {
+    return state.usersReducer.users;
+  });
+
+  const getUser = users.find((item: any) => item.id === account.id);
+
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, []);
+
   return (
     <>
       <div className="w-full h-[130px] bg-slate-50 flex justify-around items-center">
@@ -43,7 +62,9 @@ export default function Home() {
             <p className="text-xl">Giỏ hàng</p> /
             <div className="relative bottom-2">
               <i className="fa-solid fa-bag-shopping text-3xl"></i>
-              <div className="absolute top-1 left-4 w-4 h-4 bg-yellow-100 rounded-full"></div>
+              <div className="absolute top-1 left-4 w-4 h-4 bg-yellow-100 rounded-full flex items-center justify-center">
+                {getUser?.cart.length}
+              </div>
             </div>
           </div>
           {account ? (
@@ -142,8 +163,11 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <h2 className="text-3xl text-center text-pink-400">ĐỒ HANDMADE</h2>
-        <div className="mx-auto w-[100px] h-[3px] bg-black m-4"></div>
+        <h2 className="text-3xl text-center text-pink-400">
+          Giới Thiệu Về Đồ HANDMADE
+        </h2>
+
+        <div className="mx-auto w-[135px] h-[2px] bg-black m-4"></div>
         <div className="flex justify-center m-10 gap-5">
           <div>
             <img
@@ -184,7 +208,9 @@ export default function Home() {
                   {item.category}
                 </Card.Text>
                 <Card.Text className="font-bold">{item.price}</Card.Text>
-                <Button variant="primary">Xem chi tiết</Button>
+                <a href="" onClick={() => handleDetail(item.id, item)}>
+                  <Button variant="primary">Xem chi tiết</Button>
+                </a>
                 <Button className="bg-orange-500 text-white mx-2">
                   Mua ngay
                 </Button>
@@ -223,6 +249,149 @@ export default function Home() {
               className="w-72 h-56 mt-10"
             />
           </div>
+        </div>
+      </div>
+      <div>
+        <h1 className="text-3xl text-pink-400 text-center">Mẹo hay sử dụng</h1>
+        <div className="mx-auto w-[130px] h-[3px] bg-black mt-4"></div>
+        <div className="h-60 w-10/12 bg-white-50 m-auto mt-5 shadow-sm flex items-center">
+          <div className="flex gap-5">
+            <div className="ml-10">
+              <img
+                src="https://hopquatet.vn/wp-content/uploads/2022/08/tu-lam-gio-qua-tet-Handmade.jpg"
+                alt=""
+                className="w-52 rounded-md"
+              />
+            </div>
+            <div>
+              <h1 className="text-red-400 text-lg">Quà tặng ý nghĩa</h1>
+              <p className="mt-2">
+                Biểu hiện của tình cảm và sự <br />
+                quan tâm mà người tặng gửi gắm.
+                <br />
+                Những món quà được chuẩn bị <br />
+                tỉ mỉ,chu đáo sẽ làm người nhận <br />
+                thấy đặc biệt và hạnh phúc.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-5">
+            <div className="ml-24">
+              <img
+                src="https://quatnhua.vn/uploaded/Tin-tuc/tin-tuc-1/cach-lam-do-choi-vai/vai.jpg"
+                alt=""
+                className="w-52 h-40 rounded-md"
+              />
+            </div>
+            <div>
+              <h1 className="text-red-400 text-lg">
+                Công dụng của đồ handmade
+              </h1>
+              <p className="mt-2">
+                Đồ handmade làm từ nguyên liệu tự nhiên <br />
+                thể hiện sự sáng tạo và tâm huyết
+                <br />
+                của người làm. sản xuất tỉ mỉ và tinh tế <br />
+                từ chính đôi tay của nghệ nhân, <br />
+                mang lại giá trị tinh thần to lớn.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" mt-12 bg-blue-100 h-auto ">
+        <div className="flex justify-evenly">
+          <div className="m-8">
+            <img
+              src="https://beelenhandmade.com/wp-content/uploads/2024/06/Beelenhandmade.png"
+              alt=""
+              className="w-36"
+            />
+            <p>
+              LAN ANH HANDMADE cung cấp các mặt hàng <br />
+              độc đáo , độc nhất trên thị trường
+            </p>
+            <br />
+            <div className="flex">
+              <img
+                src="https://bizweb.dktcdn.net/100/322/163/themes/894749/assets/i_footer_1.png?1711706920134"
+                alt=""
+              />
+              <p className="mx-4">Tầng 6 Ladeco, 266 Đội Cấn, Hà Nội</p>
+            </div>
+            <div className="flex">
+              <img
+                src="https://bizweb.dktcdn.net/100/322/163/themes/894749/assets/i_footer_2.png?1711706920134"
+                alt=""
+              />
+              <p className="mx-4">1900 3748</p>
+            </div>
+            <div className="flex">
+              <img
+                src="https://bizweb.dktcdn.net/100/322/163/themes/894749/assets/i_footer_3.png?1711706920134"
+                alt=""
+              />
+              <p className="mx-4">lananh@handmade.vn</p>
+            </div>
+          </div>
+          <div className="w-0.5 h-64 bg-gray-300 mt-14"></div>
+          <div className="mt-20">
+            <h1 className="text-xl">Tài khoản</h1>
+            <br />
+            <p className="text-gray-400">Trang chủ</p>
+            <p className="text-gray-400">Giới thiệu</p>
+            <p className="text-gray-400">Sản phẩm</p>
+            <p className="text-gray-400">Tin tức</p>
+            <p className="text-gray-400">Liên hệ</p>
+          </div>
+          <div className="w-0.5 h-64 bg-gray-300 mt-14"></div>
+          <div className="mt-20">
+            <h1 className="text-xl">Hỗ trợ khách hàng</h1>
+            <br />
+            <p className="text-gray-400">Trang chủ</p>
+            <p className="text-gray-400">Giới thiệu</p>
+            <p className="text-gray-400">Sản phẩm</p>
+            <p className="text-gray-400">Tin tức</p>
+            <p className="text-gray-400">Liên hệ</p>
+          </div>
+          <div className="w-0.5 h-64 bg-gray-300 mt-14 "></div>
+          <div className="mt-20">
+            <h1 className="text-xl">Gửi email</h1>
+            <br />
+            <p className="text-gray-400">Gửi email nhận khuyến mãi</p>
+            <br />
+            <div>
+              <input
+                type="text"
+                placeholder="Email của bạn"
+                className="h-9 rounded-l-md p-3"
+              />
+              <button className="w-9 h-9 bg-green-400 rounded-r-md">
+                <i className="fa-brands fa-telegram text-white"></i>
+              </button>
+            </div>
+            <br />
+            <h1 className="text-xl">Kết nối</h1>
+            <br />
+            <div className="flex gap-3">
+              <button className="w-9 h-9 bg-red-400 rounded-xl">
+                <i className="fa-brands fa-google text-white"></i>
+              </button>
+              <button className="w-9 h-9 bg-blue-300 rounded-xl">
+                <i className="fa-brands fa-twitter text-white"></i>
+              </button>
+              <button className="w-9 h-9 bg-sky-800 rounded-xl">
+                <i className="fa-brands fa-facebook text-white"></i>
+              </button>
+              <button className="w-9 h-9 bg-sky-600 rounded-xl">
+                <i className="fa-brands fa-linkedin-in text-white"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="px-24">
+          <p>© Bản quyền thuộc về Lan Anh Handmade | Cung cấp bởi Lan Anh</p>
         </div>
       </div>
     </>

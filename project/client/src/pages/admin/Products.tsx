@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import swal from "sweetalert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   deleteProduct,
   getAllProduct,
   searchNameProduct,
   sortNameProduct,
 } from "../../store/reducers/productReducer";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { Product } from "../../interfaces";
 
 export default function Products() {
+  const navigate = useNavigate();
   const data: any = useSelector((state) => state);
   const [show, setShow] = useState(false);
   const [quickView, setQuickView] = useState<Product | null>(null);
@@ -28,7 +29,7 @@ export default function Products() {
     swal({
       title: "Bạn có muốn xóa sản phẩm này không?",
       icon: "warning",
-      buttons: true,
+      // buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
@@ -70,10 +71,10 @@ export default function Products() {
               <Link to="/admin/control">Bảng điều khiển</Link>
             </b>
           </div>
-          <div className="mx-14 my-6">
+          <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center bg-slate-400">
             <i className="fa-solid fa-address-card text-white"></i>
             <b className="mx-3 text-white whitespace-nowrap">
-              Quản lí nhân viên
+              <Link to="/admin/category">Quản lí danh mục</Link>
             </b>
           </div>
           <div className="mx-14 my-6 hover:bg-slate-400 h-9 flex items-center">
@@ -153,7 +154,6 @@ export default function Products() {
                     <th className="p-3">ID</th>
                     <th className="p-3">Name</th>
                     <th className="p-3">Status</th>
-                    <th className="p-3">Category</th>
                     <th className="p-2">Price</th>
                     <th className="p-2">Tồn kho</th>
                     <th className="p-2">Image</th>
@@ -170,11 +170,14 @@ export default function Products() {
                         <td className=" p-3">{index + 1}</td>
                         <td className=" p-3">{product.name}</td>
                         <td className=" p-3">{product.status}</td>
-                        <td className=" p-3">{product.category}</td>
                         <td className=" p-3">{product.price}</td>
                         <td className=" p-3">{product.stock_quantity}</td>
-                        <td className="p-3 w-52 h-52">
-                          <img src={product.image} alt="" />
+                        <td className="p-3 ">
+                          <img
+                            src={product.image}
+                            alt=""
+                            className="w-48 h-48"
+                          />
                         </td>
                         <td className=" p-3">
                           <div className="flex justify-evenly">
@@ -184,11 +187,19 @@ export default function Products() {
                             >
                               View
                             </button>
-                            <Link to="/admin/products/update">
-                              <button className="text-sm p-1 border border-slate-300 w-14 bg-orange-300 rounded-md text-white">
-                                Edit
-                              </button>
-                            </Link>
+
+                            <button
+                              className="text-sm p-1 border border-slate-300 w-14 bg-orange-300 rounded-md text-white"
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "product_update",
+                                  JSON.stringify(product)
+                                );
+                                navigate("/admin/products/update");
+                              }}
+                            >
+                              Edit
+                            </button>
 
                             <button
                               onClick={() => handleDeleteProduct(product.id)}

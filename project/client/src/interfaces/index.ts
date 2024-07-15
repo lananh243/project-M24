@@ -17,3 +17,7 @@ export interface Product {
     stock_quantity:number,
     description:string,
 }
+export interface AddToCartPayload {
+    userId : number,
+    product : Product;
+}

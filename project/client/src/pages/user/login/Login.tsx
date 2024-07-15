@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUser } from "../../../store/reducers/usersReducer";
 interface User {
   name: string;
   email: string;
@@ -13,7 +15,15 @@ export default function Login() {
   const [users, setUsers] = useState<User[]>([]);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [passwordStatus, setPasswordStatus] = useState(false);
+  const [selectedUser, setSelectedUser] = useSelector(
+    (state: any) => state.usersReducer.users
+  );
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, []);
+  console.log("aaaaaa", selectedUser);
 
   useEffect(() => {
     fetch("http://localhost:8080/users")
@@ -38,6 +48,7 @@ export default function Login() {
     const user: any = users.find(
       (user) => user.email === email && user.password === password
     );
+    console.log(user);
 
     if (user?.status) {
       if (user.role == "admin") {

@@ -9,6 +9,10 @@ import Register from "./pages/user/register/Register";
 import Order from "./pages/admin/Order";
 import DetailOrder from "./pages/admin/DetailOrder";
 import Customer from "./pages/admin/Customer";
+import Category from "./pages/admin/Category";
+import DetailProduct from "./pages/user/detailProduct/DetailProduct";
+import ListCart from "./pages/user/cart/ListCart";
+import FormOrder from "./pages/user/order/FormOrder";
 
 export default function App() {
   return (
@@ -23,6 +27,10 @@ export default function App() {
       <Route path="/admin/orders" element={<Order />}></Route>
       <Route path="/admin/orders/detail" element={<DetailOrder />}></Route>
       <Route path="/admin/customer" element={<Customer />}></Route>
+      <Route path="/admin/category" element={<Category />}></Route>
+      <Route path="/detailProduct/:id" element={<DetailProduct />}></Route>
+      <Route path="/listCart" element={<ListCart />} />
+      <Route path="/orders" element={<FormOrder />}></Route>
     </Routes>
   );
 }
